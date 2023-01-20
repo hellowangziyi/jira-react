@@ -9,5 +9,8 @@ export default defineConfig({
     viteEslint({
       failOnError: false
     })
-  ]
+  ],
+  define: {
+    'process.env': {}
+  }
 })
