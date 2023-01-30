@@ -2,10 +2,11 @@
   "name": "jira-react",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:server": "serve -s build",
     "start:server": "json-server __json_server_mock__/db.json --port 3002 --middlewares __json_server_mock__/middleware.js",
+    "jsonserver": "json-server __json_server_mock__/db.json --port 3001 --middlewares __json_server_mock__/middleware.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./",
@@ -14,8 +15,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@types/qs": "^6.9.7",
     "antd": "^5.1.6",
-    "jira-dev-tool": "^1.7.61",
+    "jira-dev-tool": "1.6.59",
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-app-rewired": "^2.2.1",

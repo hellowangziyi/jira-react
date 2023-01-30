@@ -3,11 +3,11 @@ module.exports = (req, res, next) => {
     const { username, password } = req.body
     if (username === 'admin' && password === 'admin') {
       res.status(200).json({
-        token: '123',
+        token: 'MjA4ODMwMjU4MA=='
       })
     } else {
       res.status(400).json({
-        msg: '账号或密码错误!',
+        msg: '账号或密码错误!'
       })
     }
   }

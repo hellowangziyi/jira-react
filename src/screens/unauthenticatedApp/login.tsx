@@ -1,47 +1,57 @@
 import { Button, Form, Input } from 'antd'
 import React, { FormEvent, Fragment } from 'react'
 
+import { LongButton } from '../../components/common/lib'
+import { useAuth } from '../../context/auth-context'
+import { IAuthForm } from '../../types/form'
+
 export const LoginScreen = () => {
-  const login = (param: { username: string; password: string }) => {
-    fetch(`http://localhost:3001/login`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(param)
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log('result: ', response.json())
-        } else {
-          console.log('fail...')
-        }
-      })
-      .catch((e) => {
-        console.log('error: ', e)
-      })
-  }
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const currentTarget = e.currentTarget
-    const username = (currentTarget[0] as HTMLInputElement).value
-    const password = (currentTarget[1] as HTMLInputElement).value
-    login({ username, password })
+  // const login = (param: { username: string; password: string }) => {
+  //   fetch(`http://localhost:3001/login`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify(param)
+  //   })
+  //     .then((response) => {
+  //       if (response.ok) {
+  //         console.log('result: ', response.json())
+  //       } else {
+  //         console.log('fail...')
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       console.log('error: ', e)
+  //     })
+  // }
+  const { login } = useAuth()
+  const handleSubmit = (form: IAuthForm) => {
+    console.log('e', form)
+    login(form)
   }
 
   return (
     <Fragment>
-      <Form onFinish={(e) => handleSubmit(e)}>
+      {/* <span>登陆名{user ? user.name : ''}</span> */}
+      <Form onFinish={handleSubmit} labelCol={{ span: 5 }}>
         <Form.Item label="用户名" name="username">
-          <Input />
+          <Input
+            placeholder="Please enter username"
+            type="text"
+            id={'username'}
+          />
         </Form.Item>
         <Form.Item label="密码" name="password">
-          <Input />
+          <Input
+            placeholder="Please enter password"
+            type="password"
+            id="password"
+          />
         </Form.Item>
-        <Button type="primary" htmlType="submit">
+        <LongButton type="primary" htmlType="submit">
           login
-        </Button>
-        <Button type="primary">lllll</Button>
+        </LongButton>
       </Form>
     </Fragment>
   )

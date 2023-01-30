@@ -1,12 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { loadDevTools } from 'jira-dev-tool'
+import { loadServer, DevTools } from 'jira-dev-tool'
+import { AppProvider } from './context'
 
-loadDevTools(() => {
+loadServer(() => {
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-      <App />
+      <AppProvider>
+        <DevTools />
+        <App />
+      </AppProvider>
     </React.StrictMode>
   )
 })
