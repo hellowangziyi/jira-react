@@ -30,9 +30,9 @@ AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // 验证接口不可用
-  //   useMount(() => {
-  //     bootstrapUser()
-  //   })
+  useMount(() => {
+    bootstrapUser()
+  })
 
   const [user, setUser] = useState<IUser | null>(null)
   const login = (form: IAuthForm) => auth.login(form).then(setUser)

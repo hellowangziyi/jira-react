@@ -1,10 +1,12 @@
 import { Button } from 'antd'
 import { useAuth } from '../../context/auth-context'
 import styled from '@emotion/styled'
+import { PageHeader } from '../../components/content/page-header'
 export default function AuthenticateApp() {
   const { logout, user } = useAuth()
   return (
     <Container>
+      <PageHeader></PageHeader>
       <Main>
         <div>我已经登陆了！</div>
         <Button onClick={() => logout()} type={'primary'}>
