@@ -6,3 +6,5 @@ export interface IUser {
   organization?: string
   token: string
 }
+
+export type IUserList = IUser[]

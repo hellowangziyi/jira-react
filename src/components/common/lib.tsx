@@ -10,6 +10,14 @@ export const Container = styled('div')`
   line-height: 100vh;
 `
 
+export const ScreenContainer = styled('div')`
+  padding: 3.2rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
 export const Row = styled('div')<{
   between?: boolean
   marginBottom?: number
@@ -36,6 +44,14 @@ export const Row = styled('div')<{
 export const LongButton = styled(Button)`
   width: 100%;
 `
+
+export const NoPaddingButton = styled(Button)`
+  padding: 0;
+`
+
+export const LinkButton = (props: React.ComponentProps<typeof Button>) => {
+  return <NoPaddingButton type="link" {...props}></NoPaddingButton>
+}
 
 //error
 interface ErrorTypographProps

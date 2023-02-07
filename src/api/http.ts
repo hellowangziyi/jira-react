@@ -1,5 +1,6 @@
 import qs from 'qs'
 import * as auth from './auth'
+import { useAuth } from '../context/auth-context'
 
 const BASE_URL = import.meta.env.VITE_APP_API_URL
 // const BASE_URL = 'http://localhost:3001'
@@ -10,10 +11,10 @@ export interface Config extends RequestInit {
   token?: string
 }
 
-export const http = async (
+export const http = async <T = any>(
   endpoint: string,
   { data, token, headers, ...customConfig }: Config = {}
-) => {
+): Promise<T> => {
   const config: RequestInit = {
     method: 'GET',
     headers: {
@@ -40,4 +41,10 @@ export const http = async (
       const data = await response.json()
       return response.ok ? data : Promise.reject(data)
     })
+}
+
+export const useHttp = () => {
+  const { user } = useAuth()
+  return <T = any>(...[endpoint, config]: Parameters<typeof http>) =>
+    http<T>(endpoint, { ...config, token: user?.token })
 }
