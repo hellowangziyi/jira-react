@@ -16,6 +16,7 @@ import {
 import { Row, Typography } from 'antd'
 import { usePorjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
+import { useDocumentTitle } from '../../shared/hooks/use-documentTitle'
 
 export interface IParam {
   name: string
@@ -29,7 +30,7 @@ export const ProjectListScreen = () => {
   const deBounceParam = useDebounce(param, 200)
   const { isLoading, error, data: list } = usePorjects(deBounceParam)
   const { data: users } = useUsers()
-
+  useDocumentTitle('项目列表', false)
   return (
     <ScreenContainer>
       <Row justify={'space-between'}>

@@ -5,6 +5,7 @@ import { LongButton } from '../../components/common/lib'
 import { useAuth } from '../../context/auth-context'
 import { IAuthForm } from '../../types/form'
 import { useAsync } from '../../shared/hooks/use-async'
+import { useDocumentTitle } from '../../shared/hooks/use-documentTitle'
 
 interface registerScreenProps {
   onError: (error: Error) => void

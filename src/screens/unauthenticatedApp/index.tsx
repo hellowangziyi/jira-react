@@ -17,6 +17,7 @@ export const UnauthenticatedApp = () => {
     setIsRegister((r) => !r)
     setError(null)
   }, [setIsRegister, setError])
+
   return (
     <Container>
       <Background />
