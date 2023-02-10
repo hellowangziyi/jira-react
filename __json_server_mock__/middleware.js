@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
       })
     } else {
       res.status(400).json({
-        msg: '账号或密码错误!'
+        message: '账号或密码错误!'
       })
     }
   }

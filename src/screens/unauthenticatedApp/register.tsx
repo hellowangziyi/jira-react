@@ -4,12 +4,19 @@ import React, { FormEvent, Fragment } from 'react'
 import { LongButton } from '../../components/common/lib'
 import { useAuth } from '../../context/auth-context'
 import { IAuthForm } from '../../types/form'
+import { useAsync } from '../../shared/hooks/use-async'
 
-export const RegisterScreen = () => {
+interface registerScreenProps {
+  onError: (error: Error) => void
+}
+export const RegisterScreen = ({ onError }: registerScreenProps) => {
   const { register } = useAuth()
-  const handleSubmit = (form: IAuthForm) => {
-    console.log('e', form)
-    register(form)
+  const { run, isLoading } = useAsync()
+  const handleSubmit = ({ cpassword, ...result }: IAuthForm) => {
+    if (cpassword !== result.password) {
+      onError(new Error('请确认两次输入密码相同'))
+    }
+    run(register(result)).catch((e) => onError(e))
   }
 
   return (
@@ -30,14 +37,33 @@ export const RegisterScreen = () => {
             id="password"
           />
         </Form.Item>
-        <Form.Item label="确认密码" name="cpassword">
+        <Form.Item
+          label="确认密码"
+          name="cpassword"
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve()
+                }
+                return Promise.reject(
+                  onError(
+                    new Error(
+                      'The two passwords that you entered do not match!'
+                    )
+                  )
+                )
+              }
+            })
+          ]}
+        >
           <Input
             placeholder="Please confirm password"
             type="password"
             id="cpassword"
           />
         </Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton type="primary" htmlType="submit" loading={isLoading}>
           register
         </LongButton>
       </Form>

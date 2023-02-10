@@ -51,7 +51,7 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
         })
         .catch((error) => {
           setError(error)
-          throw error
+          return Promise.reject(error)
         })
     },
     [setData]

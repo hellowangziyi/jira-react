@@ -1,7 +1,7 @@
 export interface IProject {
   id: number
   name: string
-  personId: number
+  personId: string
   organization: string
   created: number
 }

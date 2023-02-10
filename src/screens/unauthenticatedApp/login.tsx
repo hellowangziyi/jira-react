@@ -4,31 +4,17 @@ import React, { FormEvent, Fragment } from 'react'
 import { LongButton } from '../../components/common/lib'
 import { useAuth } from '../../context/auth-context'
 import { IAuthForm } from '../../types/form'
+import { useAsync } from '../../shared/hooks/use-async'
 
-export const LoginScreen = () => {
-  // const login = (param: { username: string; password: string }) => {
-  //   fetch(`http://localhost:3001/login`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'content-type': 'application/json'
-  //     },
-  //     body: JSON.stringify(param)
-  //   })
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         console.log('result: ', response.json())
-  //       } else {
-  //         console.log('fail...')
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       console.log('error: ', e)
-  //     })
-  // }
+interface ILoginScreenProps {
+  onError: (error: Error) => void
+}
+export const LoginScreen = ({ onError }: ILoginScreenProps) => {
   const { login } = useAuth()
+  const { run, isLoading } = useAsync()
   const handleSubmit = (form: IAuthForm) => {
     console.log('e', form)
-    login(form)
+    run(login(form)).catch((e) => onError(e))
   }
 
   return (
@@ -49,7 +35,7 @@ export const LoginScreen = () => {
             id="password"
           />
         </Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton type="primary" htmlType="submit" loading={isLoading}>
           login
         </LongButton>
       </Form>

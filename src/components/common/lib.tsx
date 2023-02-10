@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Button, Typography } from 'antd'
+import { Button, Spin, Typography } from 'antd'
+import { DevTools } from 'jira-dev-tool'
 
 // container
 export const Container = styled('div')`
@@ -71,4 +72,22 @@ export const ErrorTypography = ({
       {error.message}
     </Typography.Text>
   ) : null
+}
+
+// fullpage
+export const FullPage = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justity-content: center;
+  align-items: center;
+`
+
+export const FullLoadingPage = () => {
+  return (
+    <FullPage>
+      <Spin size={'large'} tip="Loading"></Spin>
+      <DevTools></DevTools>
+    </FullPage>
+  )
 }

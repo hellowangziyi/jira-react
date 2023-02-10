@@ -1,14 +1,15 @@
 import { Table } from 'antd'
 import { IProject, IProjectList } from '../../types/project'
-import { IUserList } from '../../types/user'
+import { IUser, IUserList } from '../../types/user'
 import { ColumnsType } from 'antd/es/table'
 
 interface IPropsType {
   list: IProjectList
-  user: IUserList
+  users: IUser[]
+  loading: boolean
 }
 export const ListScreen = (props: IPropsType) => {
-  const { list, user } = props
+  const { list, users, loading } = props
   const columns: ColumnsType<IProject> = [
     {
       title: 'id',
@@ -34,6 +35,7 @@ export const ListScreen = (props: IPropsType) => {
       pagination={false}
       columns={columns}
       dataSource={list}
+      loading={loading}
     ></Table>
   )
 }

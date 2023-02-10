@@ -6,7 +6,7 @@ import { IUser, IUserList } from '../../types/user'
 interface SearchPanelProps {
   // param: Partial<Pick<IProject, 'name' | 'personId'>>
   param: IParam
-  users: IUserList
+  users: IUser[]
   setParam: (param: SearchPanelProps['param']) => void
 }
 export const SearchPanel = (props: SearchPanelProps) => {

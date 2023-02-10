@@ -8,7 +8,7 @@ import { LoginScreen } from './login'
 import { Container, ErrorTypography } from '../../components/common/lib'
 import { useCallback, useState } from 'react'
 import { RegisterScreen } from './register'
-import { Button, Divider, Card } from 'antd'
+import { Button, Divider, Card, Typography } from 'antd'
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
@@ -25,7 +25,14 @@ export const UnauthenticatedApp = () => {
         <ErrorContainer style={{ opacity: error ? '100%' : '0' }}>
           <ErrorTypography error={error}></ErrorTypography>
         </ErrorContainer>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        {/* {error ? (
+          <Typography.Text type="danger">{error.message}</Typography.Text>
+        ) : null} */}
+        {isRegister ? (
+          <RegisterScreen onError={setError} />
+        ) : (
+          <LoginScreen onError={setError} />
+        )}
         {/* <LoginScreen></LoginScreen> */}
         <Divider />
         <Button type="link" onClick={handleClick}>
@@ -67,6 +74,6 @@ const ShadowCard = styled(Card)`
   text-align: center;
 `
 const ErrorContainer = styled('div')`
-  height: 3rem;
+  height: 4rem;
   transition: all 0.5s;
 `

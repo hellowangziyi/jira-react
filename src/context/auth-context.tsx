@@ -6,6 +6,8 @@ import { useMount } from '../shared/hooks/use-mount'
 
 import { IAuthForm, IRegisterForm } from '../types/form'
 import { IUser } from '../types/user'
+import { useAsync } from '../shared/hooks/use-async'
+import { FullLoadingPage } from '../components/common/lib'
 
 const bootstrapUser = async () => {
   let user = null
@@ -29,16 +31,25 @@ const AuthContext = createContext<
 AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const {
+    run,
+    isLoading,
+    data: user,
+    setData: setUser
+  } = useAsync<IUser | null>()
   // 验证接口不可用
   useMount(() => {
-    bootstrapUser()
+    run(bootstrapUser())
   })
 
-  const [user, setUser] = useState<IUser | null>(null)
+  // const [user, setUser] = useState<IUser | null>(null)
   const login = (form: IAuthForm) => auth.login(form).then(setUser)
   const register = (form: IRegisterForm) => auth.register(form).then(setUser)
   const logout = () => auth.logout().then(() => setUser(null))
 
+  if (isLoading) {
+    return <FullLoadingPage></FullLoadingPage>
+  }
   return (
     <AuthContext.Provider
       value={{ login, logout, register, user }}

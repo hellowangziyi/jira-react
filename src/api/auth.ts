@@ -12,7 +12,7 @@ export const setToken = ({ user }: { user: IUser }) => {
 }
 
 export const login = (data: IAuthForm) => {
-  return http('/login', { method: 'POST', data }).then((res) => {
+  return http('/login', { method: 'POST', data }).then(async (res) => {
     // if (res.status === 200) {
     //   return setToken(res.data)
     // } else {
@@ -28,17 +28,17 @@ export const login = (data: IAuthForm) => {
       }
       return setToken({ user })
     } else {
-      return Promise.reject(data)
+      return Promise.reject(await res.json())
     }
   })
 }
 
 export const register = (data: IRegisterForm) => {
-  return http('/register', { method: 'POST', data }).then((res) => {
+  return http('/register', { method: 'POST', data }).then(async (res) => {
     if (res.status === 200) {
       return setToken(res.data)
     } else {
-      return Promise.reject(data)
+      return Promise.reject(await res.json())
     }
   })
 }
