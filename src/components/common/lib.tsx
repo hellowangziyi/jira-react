@@ -91,3 +91,11 @@ export const FullLoadingPage = () => {
     </FullPage>
   )
 }
+
+export const FullErrorPage = ({ error }: { error: Error | null }) => {
+  return (
+    <FullPage>
+      {error ? <ErrorTypography error={error}></ErrorTypography> : null}
+    </FullPage>
+  )
+}
