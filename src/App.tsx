@@ -3,14 +3,14 @@ import './App.css'
 import { useAuth } from './context/auth-context'
 import AuthenticateApp from './screens/authenticatedApp/authenticatedApp'
 import { UnauthenticatedApp } from './screens/unauthenticatedApp'
-import { FullErrorPage } from './components/common/lib'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
   const { user } = useAuth()
   return (
     <div className="App">
       <ErrorBoundary>
-        {user ? <AuthenticateApp /> : <UnauthenticatedApp />}
+        <Router>{user ? <AuthenticateApp /> : <UnauthenticatedApp />}</Router>
       </ErrorBoundary>
     </div>
   )
