@@ -5,12 +5,12 @@ import { IUser, IUserList } from '../../types/user'
 
 interface SearchPanelProps {
   // param: Partial<Pick<IProject, 'name' | 'personId'>>
-  param: IParam
+  params: IParam
   users: IUser[]
-  setParam: (param: SearchPanelProps['param']) => void
+  setParams: (param: SearchPanelProps['params']) => void
 }
 export const SearchPanel = (props: SearchPanelProps) => {
-  const { param, setParam, users } = props
+  const { params, setParams, users } = props
 
   return (
     <Form>
@@ -18,12 +18,18 @@ export const SearchPanel = (props: SearchPanelProps) => {
         <Input
           placeholder="项目名"
           type="text"
-          value={param.name}
-          onChange={(e) => setParam({ ...param, name: e.target.value })}
+          value={params.name}
+          onChange={(e) => setParams({ ...params, name: e.target.value })}
         ></Input>
       </Form.Item>
       <Form.Item>
-        <Select placeholder="负责人">
+        <Select
+          placeholder="负责人"
+          onChange={(value: number) => {
+            setParams({ ...params, personId: String(value) })
+            console.log('1', { ...params, personId: String(value) })
+          }}
+        >
           {/* <Select.Option value={'负责人'}>负责人</Select.Option> */}
           {users.map((item) => {
             return (

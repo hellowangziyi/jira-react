@@ -17,17 +17,19 @@ import { Row, Typography } from 'antd'
 import { usePorjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { useDocumentTitle } from '../../shared/hooks/use-documentTitle'
+import { useQueryParam } from '../../shared/hooks/use-query-param'
 
 export interface IParam {
   name: string
   personId: string
 }
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
-    name: '',
-    personId: ''
-  })
-  const deBounceParam = useDebounce(param, 200)
+  // const [, setParam] = useState({
+  //   name: '',
+  //   personId: ''
+  // })
+  const [params, setParams] = useQueryParam(['name', 'personId'])
+  const deBounceParam = useDebounce(params, 200)
   const { isLoading, error, data: list } = usePorjects(deBounceParam)
   const { data: users } = useUsers()
   useDocumentTitle('项目列表', false)
@@ -45,8 +47,8 @@ export const ProjectListScreen = () => {
       )} */}
       <ErrorTypography error={error}></ErrorTypography>
       <SearchPanel
-        param={param}
-        setParam={setParam}
+        params={params}
+        setParams={setParams}
         users={(users as IUser[]) || []}
       ></SearchPanel>
       <ListScreen

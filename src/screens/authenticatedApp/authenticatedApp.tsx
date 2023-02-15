@@ -3,7 +3,9 @@ import { useAuth } from '../../context/auth-context'
 import styled from '@emotion/styled'
 import { PageHeader } from '../../components/content/page-header'
 import { ProjectListScreen } from '../project-list'
-import { Route, Routes } from 'react-router'
+import { Route, Routes, Navigate } from 'react-router'
+// import { Navigate } from 'react-router-dom'
+
 import { ProjectScreen } from '../project'
 
 export default function AuthenticateApp() {
@@ -17,6 +19,8 @@ export default function AuthenticateApp() {
             path="/projects/:projectId/*"
             element={<ProjectScreen />}
           ></Route>
+          <Route path="/" element={<Navigate to="/projects" />} />
+          {/* <Navigate to={'/projects'} replace={true}></Navigate> */}
         </Routes>
         {/* <div>我已经登陆了！</div>
         <Button onClick={() => logout()} type={'primary'}>
