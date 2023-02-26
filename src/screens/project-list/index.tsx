@@ -13,8 +13,8 @@ import {
   LinkButton,
   ScreenContainer
 } from '../../components/common/lib'
-import { Row, Typography } from 'antd'
-import { usePorjects } from '../../shared/hooks/use-projects'
+import { Row } from 'antd'
+import { useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { useDocumentTitle } from '../../shared/hooks/use-documentTitle'
 import { useQueryParam } from '../../shared/hooks/use-query-param'
@@ -30,7 +30,7 @@ export const ProjectListScreen = () => {
   // })
   const [params, setParams] = useQueryParam(['name', 'personId'])
   const deBounceParam = useDebounce(params, 200)
-  const { isLoading, error, data: list } = usePorjects(deBounceParam)
+  const { isLoading, error, data: list, retry } = useProjects(deBounceParam)
   const { data: users } = useUsers()
   useDocumentTitle('项目列表', false)
 
@@ -55,6 +55,7 @@ export const ProjectListScreen = () => {
         users={(users as IUser[]) || []}
         list={list || []}
         loading={isLoading}
+        refresh={retry}
       ></ListScreen>
     </ScreenContainer>
   )

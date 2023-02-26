@@ -24,6 +24,7 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
     ...defaultState,
     ...initialState
   })
+  const [retry, setRetry] = useState(() => () => {})
   const setData = (data: D) => {
     setState({
       data,
@@ -39,10 +40,16 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
     })
   }
   const run = useCallback(
-    (promise: Promise<D>) => {
+    (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
       if (!promise || !promise.then) {
         throw new Error('请传入Promise类型数据')
       }
+      setRetry(() => () => {
+        if (runConfig?.retry) {
+          // runConfig也要重新传入，不然只会生效一次
+          run(runConfig?.retry(), runConfig)
+        }
+      })
       setState({ ...state, stat: 'loading' })
       return promise
         .then((data) => {
@@ -65,6 +72,7 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
     isError: state.stat === 'error',
     isSuccess: state.stat === 'success',
     isIdle: state.stat === 'idle',
+    retry,
     ...state
   }
 }

@@ -4,12 +4,46 @@ import { useAsync } from './use-async'
 import { cleanObject } from '..'
 import { IProject } from '../../types/project'
 
-export const usePorjects = (param?: Partial<IProject>) => {
+export const useProjects = (param?: Partial<IProject>) => {
   const client = useHttp()
   const { run, ...result } = useAsync<IProject[]>()
+  const fetchProject = () =>
+    client('/projects', { data: cleanObject(param || {}) })
   useEffect(() => {
-    run(client('/projects', { data: cleanObject(param || {}) }))
+    // retry 重新刷新页面 需要一个函数
+    run(fetchProject(), { retry: fetchProject })
   }, [param])
 
   return result
+}
+
+export const useEditProject = () => {
+  const { run, ...asyncRes } = useAsync()
+  const client = useHttp()
+  const mutate = (params: Partial<IProject>) => {
+    return run(
+      client(`/projects/${params.id}`, { data: params, method: 'PATCH' })
+    )
+  }
+  return {
+    mutate,
+    ...asyncRes
+  }
+}
+
+export const useAddProject = () => {
+  const { run, ...rest } = useAsync()
+  const client = useHttp()
+  const mutate = (params?: Partial<IProject>) => {
+    return run(
+      client(`/projects/${params?.id}`, {
+        data: params,
+        method: 'POST'
+      })
+    )
+  }
+  return {
+    mutate,
+    ...rest
+  }
 }
