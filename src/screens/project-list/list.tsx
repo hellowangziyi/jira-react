@@ -1,16 +1,33 @@
 import { Table } from 'antd'
 import { IProject, IProjectList } from '../../types/project'
-import { IUser, IUserList } from '../../types/user'
+import { IUser } from '../../types/user'
 import { ColumnsType } from 'antd/es/table'
 import { Link } from 'react-router-dom'
+import { Pin } from '../../components/common/pin'
+import { useEditProject } from '../../shared/hooks/use-projects'
 interface IPropsType {
   list: IProjectList
   users: IUser[]
   loading: boolean
+  refresh: () => void
 }
 export const ListScreen = (props: IPropsType) => {
-  const { list, users, loading } = props
+  const { list, users, loading, refresh } = props
+  const { mutate } = useEditProject()
   const columns: ColumnsType<IProject> = [
+    {
+      title: <Pin checked={true} disabled={true}></Pin>,
+      render: (_, project) => {
+        return (
+          <Pin
+            checked={project.pin}
+            onCheckedChange={(pin) =>
+              mutate({ id: project.id, pin }).then(refresh)
+            }
+          ></Pin>
+        )
+      }
+    },
     {
       title: 'id',
       dataIndex: 'id'

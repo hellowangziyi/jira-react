@@ -4,6 +4,7 @@ export interface IProject {
   personId: string
   organization: string
   created: number
+  pin: boolean
 }
 
 export type IProjectList = IProject[]
