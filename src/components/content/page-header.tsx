@@ -6,8 +6,11 @@ import softwareLogo from '../../assets/software-logo.svg'
 import { Button, Dropdown } from 'antd'
 import type { MenuProps } from 'antd'
 import { useAuth } from '../../context/auth-context'
+import { ProjectPopover } from '../../screens/project-list/projectPopover'
 
-export const PageHeader = () => {
+export const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void
+}) => {
   const { logout, user } = useAuth()
   const items: MenuProps['items'] = [
     {
@@ -20,7 +23,10 @@ export const PageHeader = () => {
       <HeaderLeft gap={true}>
         {/* <SoftwareLogo></SoftwareLogo> */}
         <Logo src={softwareLogo}></Logo>
-        <h2>项目</h2>
+        <ProjectPopover
+          setProjectModalOpen={props.setProjectModalOpen}
+        ></ProjectPopover>
+
         <h2>用户</h2>
       </HeaderLeft>
       <HeaderRight>

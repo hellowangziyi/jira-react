@@ -1,19 +1,36 @@
-import { Table } from 'antd'
+import React from 'react'
+import { Dropdown, Popover, Table } from 'antd'
 import { IProject, IProjectList } from '../../types/project'
 import { IUser } from '../../types/user'
 import { ColumnsType } from 'antd/es/table'
 import { Link } from 'react-router-dom'
 import { Pin } from '../../components/common/pin'
 import { useEditProject } from '../../shared/hooks/use-projects'
+import { LinkButton } from '../../components/common/lib'
+import type { MenuProps } from 'antd'
 interface IPropsType {
   list: IProjectList
   users: IUser[]
   loading: boolean
   refresh: () => void
+  setProjectModalOpen?: (isOpen: boolean) => void
 }
+
 export const ListScreen = (props: IPropsType) => {
   const { list, users, loading, refresh } = props
   const { mutate } = useEditProject()
+
+  const items: MenuProps['items'] = [
+    {
+      label: '编辑',
+      key: 'edit',
+      onClick: () => {
+        if (props.setProjectModalOpen) {
+          props.setProjectModalOpen(true)
+        }
+      }
+    }
+  ]
   const columns: ColumnsType<IProject> = [
     {
       title: <Pin checked={true} disabled={true}></Pin>,
@@ -28,10 +45,10 @@ export const ListScreen = (props: IPropsType) => {
         )
       }
     },
-    {
-      title: 'id',
-      dataIndex: 'id'
-    },
+    // {
+    //   title: 'id',
+    //   dataIndex: 'id'
+    // },
     {
       title: '名称',
       render: (_, project) => {
@@ -52,6 +69,19 @@ export const ListScreen = (props: IPropsType) => {
     {
       title: '创建时间',
       dataIndex: 'created'
+    },
+    {
+      render() {
+        const contentStyle = {
+          width: '8rem',
+          textAlign: 'center'
+        }
+        return (
+          <Dropdown menu={{ items }}>
+            <LinkButton>...</LinkButton>
+          </Dropdown>
+        )
+      }
     }
   ]
   return (
