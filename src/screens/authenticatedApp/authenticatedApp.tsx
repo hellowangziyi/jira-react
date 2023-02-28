@@ -7,9 +7,13 @@ import { Route, Routes, Navigate } from 'react-router'
 import { ProjectScreen } from '../project'
 import { useState } from 'react'
 import { ProjectModal } from '../project-list/projectModel'
+import { LinkButton } from '../../components/common/lib'
 
 export default function AuthenticateApp() {
   const [projectModalOpen, setProjectModalOpen] = useState(false)
+  const projectButton = (
+    <LinkButton onClick={() => setProjectModalOpen(true)}>创建项目</LinkButton>
+  )
   return (
     <Container>
       <PageHeader setProjectModalOpen={setProjectModalOpen}></PageHeader>
@@ -17,9 +21,7 @@ export default function AuthenticateApp() {
         <Routes>
           <Route
             path="/projects"
-            element={
-              <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
-            }
+            element={<ProjectListScreen projectButton={projectButton} />}
           ></Route>
           <Route
             path="/projects/:projectId/*"

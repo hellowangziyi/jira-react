@@ -23,9 +23,7 @@ export interface IParam {
   name: string
   personId: string
 }
-export const ProjectListScreen = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void
-}) => {
+export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
   // const [, setParam] = useState({
   //   name: '',
   //   personId: ''
@@ -40,9 +38,10 @@ export const ProjectListScreen = (props: {
     <ScreenContainer>
       <Row justify={'space-between'}>
         <h1>项目列表</h1>
-        <LinkButton onClick={() => props.setProjectModalOpen(true)}>
+        {/* <LinkButton onClick={() => props.setProjectModalOpen(true)}>
           创建项目
-        </LinkButton>
+        </LinkButton> */}
+        {props.projectButton}
       </Row>
       {/* {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
