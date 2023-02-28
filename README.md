@@ -1,2 +1,2 @@
-# jira-react
- learn react
+# SmartTeam-react
+ react project
