@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { useMountedRef } from './use-mountedRef'
 
 interface IState<D> {
   error: null | Error
@@ -25,6 +26,8 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
     ...initialState
   })
   const [retry, setRetry] = useState(() => () => {})
+  const mountedRef = useMountedRef()
+
   const setData = (data: D) => {
     setState({
       data,
@@ -53,11 +56,11 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
       setState({ ...state, stat: 'loading' })
       return promise
         .then((data) => {
-          setData(data)
+          if (mountedRef.current) setData(data)
           return data
         })
         .catch((error) => {
-          setError(error)
+          if (mountedRef.current) setError(error)
           return Promise.reject(error)
         })
     },
