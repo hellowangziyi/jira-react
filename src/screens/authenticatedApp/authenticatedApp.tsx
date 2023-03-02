@@ -8,11 +8,16 @@ import { ProjectScreen } from '../project'
 import { useState } from 'react'
 import { ProjectModal } from '../project-list/projectModel'
 import { LinkButton } from '../../components/common/lib'
+import { useDispatch } from 'react-redux'
+import { projectSliceActions } from '../../store/features/projectSlice'
 
 export default function AuthenticateApp() {
-  const [projectModalOpen, setProjectModalOpen] = useState(false)
+  // const [projectModalOpen, setProjectModalOpen] = useState(false)
+  const dispatch = useDispatch()
   const projectButton = (
-    <LinkButton onClick={() => setProjectModalOpen(true)}>创建项目</LinkButton>
+    <LinkButton onClick={() => dispatch(projectSliceActions.openProjectModel)}>
+      创建项目
+    </LinkButton>
   )
   return (
     <Container>
