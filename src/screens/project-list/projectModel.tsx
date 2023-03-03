@@ -1,15 +1,20 @@
 import { Drawer } from 'antd'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  projectSliceActions,
+  selectProjectModleOpen
+} from '../../store/features/projectSlice'
 
-export const ProjectModal = (props: {
-  projectModalOpen: boolean
-  onClose: () => void
-}) => {
+export const ProjectModal = () => {
+  const dispatch = useDispatch()
+  const projectModleOpen = useSelector(selectProjectModleOpen)
+  console.log('projectModleOpen', projectModleOpen)
   return (
     <Drawer
       placement="right"
-      open={props.projectModalOpen}
-      onClose={props.onClose}
+      open={projectModleOpen}
+      onClose={() => dispatch(projectSliceActions.closeProjectModel())}
       width={'100%'}
     ></Drawer>
   )

@@ -8,26 +8,25 @@ import { Pin } from '../../components/common/pin'
 import { useEditProject } from '../../shared/hooks/use-projects'
 import { LinkButton } from '../../components/common/lib'
 import type { MenuProps } from 'antd'
+import { useDispatch } from 'react-redux'
+import { projectSliceActions } from '../../store/features/projectSlice'
 interface IPropsType {
   list: IProjectList
   users: IUser[]
   loading: boolean
   refresh: () => void
-  setProjectModalOpen?: (isOpen: boolean) => void
 }
 
 export const ListScreen = (props: IPropsType) => {
   const { list, users, loading, refresh } = props
   const { mutate } = useEditProject()
-
+  const dispatch = useDispatch()
   const items: MenuProps['items'] = [
     {
       label: '编辑',
       key: 'edit',
       onClick: () => {
-        if (props.setProjectModalOpen) {
-          props.setProjectModalOpen(true)
-        }
+        dispatch(projectSliceActions.openProjectModel)
       }
     }
   ]

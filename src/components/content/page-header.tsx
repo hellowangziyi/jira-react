@@ -8,9 +8,7 @@ import type { MenuProps } from 'antd'
 import { useAuth } from '../../context/auth-context'
 import { ProjectPopover } from '../../screens/project-list/projectPopover'
 
-export const PageHeader = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void
-}) => {
+export const PageHeader = () => {
   const { logout, user } = useAuth()
   const items: MenuProps['items'] = [
     {
@@ -23,9 +21,7 @@ export const PageHeader = (props: {
       <HeaderLeft gap={true}>
         {/* <SoftwareLogo></SoftwareLogo> */}
         <Logo src={softwareLogo}></Logo>
-        <ProjectPopover
-          setProjectModalOpen={props.setProjectModalOpen}
-        ></ProjectPopover>
+        <ProjectPopover></ProjectPopover>
 
         <h2>用户</h2>
       </HeaderLeft>

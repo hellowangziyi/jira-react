@@ -3,11 +3,12 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { LinkButton } from '../../components/common/lib'
 import { useProjects } from '../../shared/hooks/use-projects'
+import { useDispatch } from 'react-redux'
+import { projectSliceActions } from '../../store/features/projectSlice'
 
-export const ProjectPopover = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void
-}) => {
+export const ProjectPopover = () => {
   const { data: projects, isLoading } = useProjects()
+  const dispatch = useDispatch()
   const pinnedProjects = projects?.filter((item) => item.pin)
   const content = (
     <ContentContainer>
@@ -24,7 +25,9 @@ export const ProjectPopover = (props: {
         })}
       </List>
       <Divider></Divider>
-      <LinkButton onClick={() => props.setProjectModalOpen(true)}>
+      <LinkButton
+        onClick={() => dispatch(projectSliceActions.openProjectModel())}
+      >
         创建项目
       </LinkButton>
     </ContentContainer>

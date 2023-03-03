@@ -18,12 +18,13 @@ import { useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { useDocumentTitle } from '../../shared/hooks/use-documentTitle'
 import { useQueryParam } from '../../shared/hooks/use-query-param'
-
+import { useDispatch } from 'react-redux'
+import { projectSliceActions } from '../../store/features/projectSlice'
 export interface IParam {
   name: string
   personId: string
 }
-export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
+export const ProjectListScreen = () => {
   // const [, setParam] = useState({
   //   name: '',
   //   personId: ''
@@ -32,16 +33,21 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
   const deBounceParam = useDebounce(params, 200)
   const { isLoading, error, data: list, retry } = useProjects(deBounceParam)
   const { data: users } = useUsers()
+  const dispatch = useDispatch()
   useDocumentTitle('项目列表', false)
 
   return (
     <ScreenContainer>
       <Row justify={'space-between'}>
         <h1>项目列表</h1>
-        {/* <LinkButton onClick={() => props.setProjectModalOpen(true)}>
+        <LinkButton
+          onClick={() => {
+            console.log('dianjile')
+            dispatch(projectSliceActions.openProjectModel())
+          }}
+        >
           创建项目
-        </LinkButton> */}
-        {props.projectButton}
+        </LinkButton>
       </Row>
       {/* {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
@@ -59,7 +65,6 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
         list={list || []}
         loading={isLoading}
         refresh={retry}
-        setProjectModalOpen={props.setProjectModalOpen}
       ></ListScreen>
     </ScreenContainer>
   )

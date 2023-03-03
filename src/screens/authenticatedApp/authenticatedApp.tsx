@@ -21,13 +21,10 @@ export default function AuthenticateApp() {
   )
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen}></PageHeader>
+      <PageHeader></PageHeader>
       <Main>
         <Routes>
-          <Route
-            path="/projects"
-            element={<ProjectListScreen projectButton={projectButton} />}
-          ></Route>
+          <Route path="/projects" element={<ProjectListScreen />}></Route>
           <Route
             path="/projects/:projectId/*"
             element={<ProjectScreen />}
@@ -40,10 +37,7 @@ export default function AuthenticateApp() {
           退出登陆
         </Button> */}
       </Main>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => setProjectModalOpen(false)}
-      ></ProjectModal>
+      <ProjectModal></ProjectModal>
     </Container>
   )
 }
