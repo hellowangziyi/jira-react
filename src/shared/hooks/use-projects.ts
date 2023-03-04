@@ -3,6 +3,7 @@ import { useHttp } from '../../api/http'
 import { useAsync } from './use-async'
 import { cleanObject } from '..'
 import { IProject } from '../../types/project'
+import { useQueryParam } from './use-query-param'
 
 export const useProjects = (param?: Partial<IProject>) => {
   const client = useHttp()
@@ -45,5 +46,18 @@ export const useAddProject = () => {
   return {
     mutate,
     ...rest
+  }
+}
+
+export const useProjectModel = () => {
+  const [{ creatProject }, setCreatProject] = useQueryParam(['creatProject'])
+
+  const open = () => setCreatProject({ creatProject: true })
+  const close = () => setCreatProject({ creatProject: undefined })
+
+  return {
+    open,
+    close,
+    projectModalOpen: creatProject === 'true'
   }
 }

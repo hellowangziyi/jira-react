@@ -14,7 +14,7 @@ import {
   ScreenContainer
 } from '../../components/common/lib'
 import { Row } from 'antd'
-import { useProjects } from '../../shared/hooks/use-projects'
+import { useProjectModel, useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { useDocumentTitle } from '../../shared/hooks/use-documentTitle'
 import { useQueryParam } from '../../shared/hooks/use-query-param'
@@ -32,16 +32,14 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
   const deBounceParam = useDebounce(params, 200)
   const { isLoading, error, data: list, retry } = useProjects(deBounceParam)
   const { data: users } = useUsers()
+  const { open } = useProjectModel()
   useDocumentTitle('项目列表', false)
 
   return (
     <ScreenContainer>
       <Row justify={'space-between'}>
         <h1>项目列表</h1>
-        {/* <LinkButton onClick={() => props.setProjectModalOpen(true)}>
-          创建项目
-        </LinkButton> */}
-        {props.projectButton}
+        <LinkButton onClick={open}>创建项目</LinkButton>
       </Row>
       {/* {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
@@ -59,7 +57,6 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
         list={list || []}
         loading={isLoading}
         refresh={retry}
-        setProjectModalOpen={props.setProjectModalOpen}
       ></ListScreen>
     </ScreenContainer>
   )

@@ -5,7 +5,10 @@ import { IUser } from '../../types/user'
 import { ColumnsType } from 'antd/es/table'
 import { Link } from 'react-router-dom'
 import { Pin } from '../../components/common/pin'
-import { useEditProject } from '../../shared/hooks/use-projects'
+import {
+  useEditProject,
+  useProjectModel
+} from '../../shared/hooks/use-projects'
 import { LinkButton } from '../../components/common/lib'
 import type { MenuProps } from 'antd'
 interface IPropsType {
@@ -13,22 +16,18 @@ interface IPropsType {
   users: IUser[]
   loading: boolean
   refresh: () => void
-  setProjectModalOpen?: (isOpen: boolean) => void
 }
 
 export const ListScreen = (props: IPropsType) => {
   const { list, users, loading, refresh } = props
   const { mutate } = useEditProject()
+  const { open } = useProjectModel()
 
   const items: MenuProps['items'] = [
     {
       label: '编辑',
       key: 'edit',
-      onClick: () => {
-        if (props.setProjectModalOpen) {
-          props.setProjectModalOpen(true)
-        }
-      }
+      onClick: () => open()
     }
   ]
   const columns: ColumnsType<IProject> = [

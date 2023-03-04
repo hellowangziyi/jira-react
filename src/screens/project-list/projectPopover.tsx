@@ -2,12 +2,11 @@ import { Divider, List, Popover, Typography } from 'antd'
 import React from 'react'
 import styled from '@emotion/styled'
 import { LinkButton } from '../../components/common/lib'
-import { useProjects } from '../../shared/hooks/use-projects'
+import { useProjectModel, useProjects } from '../../shared/hooks/use-projects'
 
-export const ProjectPopover = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void
-}) => {
+export const ProjectPopover = () => {
   const { data: projects, isLoading } = useProjects()
+  const { open } = useProjectModel()
   const pinnedProjects = projects?.filter((item) => item.pin)
   const content = (
     <ContentContainer>
@@ -24,9 +23,7 @@ export const ProjectPopover = (props: {
         })}
       </List>
       <Divider></Divider>
-      <LinkButton onClick={() => props.setProjectModalOpen(true)}>
-        创建项目
-      </LinkButton>
+      <LinkButton onClick={open}>创建项目</LinkButton>
     </ContentContainer>
   )
   return (
