@@ -30,7 +30,7 @@ export const SearchPanel = (props: SearchPanelProps) => {
             console.log('1', { ...params, personId: String(value) })
           }}
         >
-          {/* <Select.Option value={'负责人'}>负责人</Select.Option> */}
+          <Select.Option value={''}>负责人</Select.Option>
           {users.map((item) => {
             return (
               <Select.Option value={item.id} key={item.id}>

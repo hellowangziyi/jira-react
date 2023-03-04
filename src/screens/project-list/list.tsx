@@ -11,22 +11,30 @@ import {
 } from '../../shared/hooks/use-projects'
 import { LinkButton } from '../../components/common/lib'
 import type { MenuProps } from 'antd'
+import styled from '@emotion/styled'
 interface IPropsType {
   list: IProjectList
   users: IUser[]
   loading: boolean
-  refresh: () => void
 }
 
 export const ListScreen = (props: IPropsType) => {
-  const { list, users, loading, refresh } = props
+  const { list, users, loading } = props
   const { mutate } = useEditProject()
-  const { open } = useProjectModel()
+  const { open, edit } = useProjectModel()
 
   const items: MenuProps['items'] = [
     {
       label: '编辑',
       key: 'edit',
+      onClick: (item) => {
+        console.log('item', item)
+        edit(item.id)
+      }
+    },
+    {
+      label: '删除',
+      key: 'delet',
       onClick: () => open()
     }
   ]
@@ -37,9 +45,7 @@ export const ListScreen = (props: IPropsType) => {
         return (
           <Pin
             checked={project.pin}
-            onCheckedChange={(pin) =>
-              mutate({ id: project.id, pin }).then(refresh)
-            }
+            onCheckedChange={(pin) => mutate({ id: project.id, pin })}
           ></Pin>
         )
       }
@@ -70,15 +76,27 @@ export const ListScreen = (props: IPropsType) => {
       dataIndex: 'created'
     },
     {
-      render() {
+      render(_, project) {
         const contentStyle = {
           width: '8rem',
           textAlign: 'center'
         }
+        const content = (
+          <ContentContainer>
+            <LinkButton onClick={() => edit(project.id)}>编辑</LinkButton>
+            <LinkButton onClick={() => open()}>删除</LinkButton>
+          </ContentContainer>
+        )
+
+        // return (
+        //   <Dropdown menu={{ items }}>
+        //     <LinkButton>...</LinkButton>
+        //   </Dropdown>
+        // )
         return (
-          <Dropdown menu={{ items }}>
+          <Popover content={content} placement="bottom" showArrow={false}>
             <LinkButton>...</LinkButton>
-          </Dropdown>
+          </Popover>
         )
       }
     }
@@ -94,3 +112,8 @@ export const ListScreen = (props: IPropsType) => {
     ></Table>
   )
 }
+
+const ContentContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+`

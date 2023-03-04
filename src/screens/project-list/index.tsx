@@ -30,7 +30,7 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
   // })
   const [params, setParams] = useQueryParam(['name', 'personId'])
   const deBounceParam = useDebounce(params, 200)
-  const { isLoading, error, data: list, retry } = useProjects(deBounceParam)
+  const { isLoading, error, data: list } = useProjects(deBounceParam)
   const { data: users } = useUsers()
   const { open } = useProjectModel()
   useDocumentTitle('项目列表', false)
@@ -56,7 +56,6 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
         users={(users as IUser[]) || []}
         list={list || []}
         loading={isLoading}
-        refresh={retry}
       ></ListScreen>
     </ScreenContainer>
   )
