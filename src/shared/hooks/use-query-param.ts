@@ -17,6 +17,3 @@ export const useQueryParam = <K extends string>(keys: K[]) => {
   }
   return [params, setParams] as const
 }
-
-const a = [1, '12', { a: 1 }] as const
-console.log('a', a)
