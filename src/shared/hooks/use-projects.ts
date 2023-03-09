@@ -4,10 +4,8 @@ import { useAsync } from './use-async'
 import { cleanObject } from '..'
 import { IProject } from '../../types/project'
 import { useQueryParam } from './use-query-param'
-import { QueryClient, useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { changeConfirmLocale } from 'antd/es/modal/locale'
-import { useSearchParams } from 'react-router-dom'
-import { useEditConfig } from './use-optConfig'
 
 // export const useProjects = (param?: Partial<IProject>) => {
 //   const client = useHttp()
@@ -55,34 +53,11 @@ export const useProject = (id?: number) => {
 // }
 export const useEditProject = () => {
   const client = useHttp()
-  // const queryClient = useQueryClient()
-
-  const [searchParmas] = useQueryParam(['name', 'personId'])
-  const queryKey = ['projects', searchParmas]
-
+  const queryClient = useQueryClient()
   return useMutation(
     (params: Partial<IProject>) =>
       client(`/projects/${params.id}`, { data: params, method: 'PATCH' }),
-    useEditConfig(queryKey)
-    // {
-    //   onSuccess: () => queryClient.invalidateQueries('projects'),
-
-    //   onMutate: (target: Partial<IProject>) => {
-    //     console.log('queryKey', queryKey)
-    //     //保存以前的值 方便回滚
-    //     const previousItems = queryClient.getQueryData(queryKey)
-    //     queryClient.setQueryData(queryKey, (old: any) => {
-    //       return old.map((item: any) =>
-    //         item.id === target.id ? { ...item, ...target } : item
-    //       )
-    //     })
-    //     return { previousItems }
-    //   },
-    //   onError: (error, target, context) => {
-    //     queryClient.setQueryData(queryKey, context?.previousItems)
-    //     console.log('error', error)
-    //   }
-    // }
+    { onSuccess: () => queryClient.invalidateQueries('projects') }
   )
 }
 // export const useAddProject = () => {
