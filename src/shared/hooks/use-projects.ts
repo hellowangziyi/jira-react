@@ -3,9 +3,9 @@ import { useHttp } from '../../api/http'
 import { useAsync } from './use-async'
 import { cleanObject } from '..'
 import { IProject } from '../../types/project'
-import { useQueryParam } from './use-query-param'
+import { useQueryParam, useSetQueryParam } from './use-query-param'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { changeConfirmLocale } from 'antd/es/modal/locale'
+import { useAddConfig, useEditConfig } from './use-optConfig'
 
 // export const useProjects = (param?: Partial<IProject>) => {
 //   const client = useHttp()
@@ -53,11 +53,31 @@ export const useProject = (id?: number) => {
 // }
 export const useEditProject = () => {
   const client = useHttp()
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
+  const [searchParams] = useQueryParam(['name', 'personId'])
+  const queryKey = ['projects', searchParams]
   return useMutation(
     (params: Partial<IProject>) =>
       client(`/projects/${params.id}`, { data: params, method: 'PATCH' }),
-    { onSuccess: () => queryClient.invalidateQueries('projects') }
+    useEditConfig(queryKey)
+    // {
+    //   onSuccess: () => queryClient.invalidateQueries('projects'),
+    //   onMutate: (target) => {
+    //     const prev = queryClient.getQueryData(queryKey)
+    //     queryClient.setQueryData(queryKey, (old: any) => {
+    //       console.log('old', old)
+    //       return old.map((item: any) =>
+    //         item.id === target.id ? { ...item, ...target } : item
+    //       )
+    //     })
+    //     return { prev }
+    //   },
+    //   onError: (error, target, context) => {
+    //     //回滚
+    //     queryClient.setQueryData(queryKey, context?.prev)
+    //     console.log(error)
+    //   }
+    // }
   )
 }
 // export const useAddProject = () => {
@@ -78,17 +98,20 @@ export const useEditProject = () => {
 // }
 export const useAddProject = () => {
   const client = useHttp()
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
+  const [searchParams] = useQueryParam(['name', 'personId'])
+  const queryKey = ['projects', searchParams]
   return useMutation(
     (params?: Partial<IProject>) =>
       client(`/projects`, { data: params, method: 'POST' }),
-    { onSuccess: () => queryClient.invalidateQueries('projects') }
+    useAddConfig(queryKey)
   )
 }
 
 export const useProjectModel = () => {
   const [{ createProject }, setCreateProject] = useQueryParam(['createProject'])
   const [{ editProjectId }, setEditProjectId] = useQueryParam(['editProjectId'])
+  const setQueryParam = useSetQueryParam()
 
   const open = useCallback(
     () => setCreateProject({ createProject: true }),
@@ -100,9 +123,10 @@ export const useProjectModel = () => {
   )
   const close = useCallback(() => {
     console.log('close')
-    setCreateProject({ createProject: undefined })
-    console.log(createProject)
-    setEditProjectId({ editProjectId: undefined })
+    // setCreateProject({ createProject: undefined })
+    // console.log(createProject)
+    // setEditProjectId({ editProjectId: undefined })
+    setQueryParam({ createProject: '', editProjectId: '' })
   }, [setEditProjectId, setCreateProject])
 
   const { data: editingProject, isLoading } = useProject(Number(editProjectId))

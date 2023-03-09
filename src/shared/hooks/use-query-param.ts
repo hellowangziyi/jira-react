@@ -3,7 +3,8 @@ import { useSearchParams } from 'react-router-dom'
 import { cleanObject } from '..'
 
 export const useQueryParam = <K extends string>(keys: K[]) => {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
+  const setSearchParams = useSetQueryParam()
   const params = useMemo(
     () =>
       keys.reduce((pre, key) => {
@@ -11,12 +12,20 @@ export const useQueryParam = <K extends string>(keys: K[]) => {
       }, {} as { [key in K]: string }),
     [searchParams]
   )
-  const setParams = (params: Partial<{ [key in K]: unknown }>) => {
-    const obj = cleanObject({ ...Object.fromEntries(searchParams), ...params })
-    return setSearchParams(obj)
-  }
-  return [params, setParams] as const
+  // const setParams = (params: Partial<{ [key in K]: unknown }>) => {
+  //   const obj = cleanObject({ ...Object.fromEntries(searchParams), ...params })
+  //   return setSearchParams(obj)
+  // }
+  return [params, setSearchParams] as const
 }
 
-const a = [1, '12', { a: 1 }] as const
-console.log('a', a)
+export const useSetQueryParam = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  return (params: { [key in string]: unknown }) => {
+    const obj = cleanObject({
+      ...Object.fromEntries(searchParams),
+      ...params
+    })
+    return setSearchParams(obj)
+  }
+}
