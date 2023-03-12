@@ -23,35 +23,107 @@
       "name": "骑手管理",
       "personId": 1,
       "organization": "外卖组",
-      "created": 1604989757139
+      "created": 1604989757139,
+      "pin": true
     },
     {
       "id": 2,
       "name": "团购 APP",
       "personId": 2,
       "organization": "团购组",
-      "created": 1604989757139
+      "created": 1604989757139,
+      "pin": true
     },
     {
       "id": 3,
       "name": "物料管理系统",
       "personId": 2,
       "organization": "物料组",
-      "created": 1546300800000
+      "created": 1546300800000,
+      "pin": false
     },
     {
       "id": 4,
       "name": "总部管理系统",
       "personId": 3,
       "organization": "总部",
-      "created": 1604980000011
+      "created": 1604980000011,
+      "pin": false
     },
     {
       "id": 5,
-      "name": "送餐路线规划系统",
+      "name": "送餐路线规划系统1",
       "personId": 4,
       "organization": "外卖组",
-      "created": 1546900800000
+      "created": 1546900800000,
+      "pin": false
+    },
+    {
+      "name": "aa",
+      "organization": "bb",
+      "personId": "aa",
+      "id": 6
+    },
+    {
+      "name": "一只汪www",
+      "organization": "ss",
+      "personId": "ss",
+      "id": 7
+    },
+    {
+      "name": "cc",
+      "organization": "aa",
+      "personId": "aa",
+      "id": 8
+    }
+  ],
+  "kanbans": [
+    {
+      "name": "待完成",
+      "projectId": "1",
+      "id": 1
+    },
+    {
+      "name": " 开发中",
+      "projectId": "2",
+      "id": 2
+    },
+    {
+      "name": "已完成",
+      "projectId": "3",
+      "id": 3
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "name": "性能优化",
+      "kanbanId": 1
+    },
+    {
+      "id": 2,
+      "name": "管理注册界面开发",
+      "kanbanId": 2
+    },
+    {
+      "id": 3,
+      "name": "单元测试",
+      "kanbanId": 2
+    },
+    {
+      "id": 4,
+      "name": "权限管理界面开发",
+      "kanbanId": 2
+    },
+    {
+      "name": "aa",
+      "kanbanId": 1,
+      "id": 5
+    },
+    {
+      "name": "bb",
+      "kanbanId": 1,
+      "id": 6
     }
   ]
 }

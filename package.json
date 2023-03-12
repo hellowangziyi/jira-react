@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite",
     "dev:server": "serve -s build",
-    "start:server": "json-server __json_server_mock__/db.json --port 3002 --middlewares __json_server_mock__/middleware.js",
-    "jsonserver": "json-server __json_server_mock__/db.json --port 3001 --middlewares __json_server_mock__/middleware.js",
+    "start:server": "json-server __json_server_mock__/db.json --port 3001 --middlewares __json_server_mock__/middleware.js",
+    "mock": "json-server __json_server_mock__/db.json --port 3001 --middlewares __json_server_mock__/middleware.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./",

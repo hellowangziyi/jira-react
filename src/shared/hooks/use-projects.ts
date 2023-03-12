@@ -28,7 +28,7 @@ export const useProjects = (param?: Partial<IProject>) => {
 
 export const useProject = (id?: number) => {
   const client = useHttp()
-  return useQuery<IProject[]>(
+  return useQuery<IProject, Error>(
     ['projects', { id }],
     () => client(`/projects/${id}`),
     {

@@ -24,12 +24,12 @@ self.addEventListener('message', async function (event) {
   const clientId = event.source.id
   const client = await event.currentTarget.clients.get(clientId)
   const allClients = await self.clients.matchAll()
-  const allClientIds = allClients.map(client => client.id)
+  const allClientIds = allClients.map((client) => client.id)
 
   switch (event.data) {
     case 'KEEPALIVE_REQUEST': {
       sendToClient(client, {
-        type: 'KEEPALIVE_RESPONSE',
+        type: 'KEEPALIVE_RESPONSE'
       })
       break
     }
@@ -37,7 +37,7 @@ self.addEventListener('message', async function (event) {
     case 'INTEGRITY_CHECK_REQUEST': {
       sendToClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
-        payload: INTEGRITY_CHECKSUM,
+        payload: INTEGRITY_CHECKSUM
       })
       break
     }
@@ -48,7 +48,7 @@ self.addEventListener('message', async function (event) {
 
       sendToClient(client, {
         type: 'MOCKING_ENABLED',
-        payload: true,
+        payload: true
       })
       break
     }
@@ -60,7 +60,7 @@ self.addEventListener('message', async function (event) {
     }
 
     case 'CLIENT_CLOSED': {
-      const remainingClients = allClients.filter(client => {
+      const remainingClients = allClients.filter((client) => {
         return client.id !== clientId
       })
 
@@ -113,7 +113,7 @@ self.addEventListener('fetch', function (event) {
         delete modifiedHeaders[bypassHeaderName]
 
         const originalRequest = new Request(requestClone, {
-          headers: new Headers(modifiedHeaders),
+          headers: new Headers(modifiedHeaders)
         })
 
         return resolve(fetch(originalRequest))
@@ -138,8 +138,8 @@ self.addEventListener('fetch', function (event) {
           referrerPolicy: request.referrerPolicy,
           body,
           bodyUsed: request.bodyUsed,
-          keepalive: request.keepalive,
-        },
+          keepalive: request.keepalive
+        }
       })
 
       const clientMessage = rawClientMessage
@@ -148,7 +148,7 @@ self.addEventListener('fetch', function (event) {
         case 'MOCK_SUCCESS': {
           setTimeout(
             resolve.bind(this, createResponse(clientMessage)),
-            clientMessage.payload.delay,
+            clientMessage.payload.delay
           )
           break
         }
@@ -180,20 +180,20 @@ This exception has been gracefully handled as a 500 response, however, it's stro
 If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
   `,
             request.method,
-            request.url,
+            request.url
           )
 
           return resolve(createResponse(clientMessage))
         }
       }
-    }).catch(error => {
+    }).catch((error) => {
       console.error(
         '[MSW] Failed to mock a "%s" request to "%s": %s',
         request.method,
         request.url,
-        error,
+        error
       )
-    }),
+    })
   )
 })
 
@@ -211,7 +211,7 @@ function sendToClient(client, message) {
   return new Promise((resolve, reject) => {
     const channel = new MessageChannel()
 
-    channel.port1.onmessage = event => {
+    channel.port1.onmessage = (event) => {
       if (event.data && event.data.error) {
         reject(event.data.error)
       } else {
@@ -226,7 +226,7 @@ function sendToClient(client, message) {
 function createResponse(clientMessage) {
   return new Response(clientMessage.payload.body, {
     ...clientMessage.payload,
-    headers: clientMessage.payload.headers,
+    headers: clientMessage.payload.headers
   })
 }
 
